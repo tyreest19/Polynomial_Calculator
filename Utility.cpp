@@ -80,3 +80,21 @@ int User_Inputted_Number(string prompt, string invalid_prompt, string out_of_bou
     
     return number;
 }
+
+//============================================================================================
+// Prompts user to enter a correct polynomial and returns it as a string
+//============================================================================================
+
+string Get_User_Input(string prompt, string invalid_input_prompt, int number)
+{
+    bool valid_input = false;
+    string polynomial;
+    
+    while(!valid_input)
+    {
+        cout << prompt << number << " -> ";
+        getline(cin, polynomial);
+    }
+    
+    return polynomial;
+}

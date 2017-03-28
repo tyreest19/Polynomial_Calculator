@@ -11,6 +11,7 @@
 
 struct Polynomial
 {
+    std::string math_operator;
     int Coefficient;
     int Exponent;
     Polynomial *Next_Term = nullptr;
