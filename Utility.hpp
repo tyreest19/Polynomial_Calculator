@@ -16,7 +16,7 @@
 
 using namespace std;
 
-void Initialize(Polynomial &Poly, std::string Desired_Polynomial);
+Polynomial Create(std::string Desired_Polynomial);
 Polynomial Add(const Polynomial Poly1, const Polynomial Poly2);
 Polynomial Multiply(const Polynomial Poly1, const Polynomial Poly2);
 int String_To_Int(const char *str);
