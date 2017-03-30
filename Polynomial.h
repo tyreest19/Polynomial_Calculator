@@ -8,12 +8,27 @@
 
 #ifndef Polynomial_h
 #define Polynomial_h
+#include <iostream>
 
-struct Polynomial
+class Polynomial
 {
-    char Following_Math_Operator;
-    int Coefficient;
-    int Exponent;
-    Polynomial *Next_Term = nullptr;
+    
+public:
+    
+    Polynomial(std::string Desired_Polynomial);
+    void Print_Polynomial();
+private:
+    
+    struct Term
+    {
+        int Coefficient;
+        int Exponent;
+        Term *Previous_Term = nullptr;
+        Term *Next_Term = nullptr;
+    };
+
+    Term *head;
+    void Reverse_Polynomial();
 };
+
 #endif /* Polynomial_h */
