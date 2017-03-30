@@ -23,12 +23,11 @@ private:
     {
         int Coefficient;
         int Exponent;
-        Term *Previous_Term = nullptr;
         Term *Next_Term = nullptr;
     };
 
     Term *head;
-    void Reverse_Polynomial();
+    void Append(int coefficient,int exponent, bool head_empty);
 };
 
 #endif /* Polynomial_h */

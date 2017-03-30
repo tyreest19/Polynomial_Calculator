@@ -17,11 +17,11 @@ Polynomial::Polynomial(std::string Desired_Polynomial)
 {
     Desired_Polynomial += ' ';
     head = nullptr;
-    bool is_head_null = true;
+    bool is_head_null;
     string number = "";
     const int length = Desired_Polynomial.length();
     bool search_for_exponent = false;
-    Term *polynomial = new Term;
+    Term polynomial;
     for (int i = 0; i < length; i++)
     {
         if ('0' <= Desired_Polynomial[i] && Desired_Polynomial[i] <= '9')
@@ -31,7 +31,7 @@ Polynomial::Polynomial(std::string Desired_Polynomial)
         
         else if (Desired_Polynomial[i] == 'x')
         {
-            polynomial->Coefficient = String_To_Int(number.c_str());
+            polynomial.Coefficient = String_To_Int(number.c_str());
             number = "";
             if (i + 1 < length)
             {
@@ -49,48 +49,58 @@ Polynomial::Polynomial(std::string Desired_Polynomial)
         {
             if (search_for_exponent)
             {
-                polynomial->Exponent = String_To_Int(number.c_str());
+                polynomial.Exponent = String_To_Int(number.c_str());
                 search_for_exponent = false;
             }
             
             else
             {
-                polynomial->Exponent = 0;
-                polynomial->Coefficient = String_To_Int(number.c_str());
+                polynomial.Exponent = 0;
+                polynomial.Coefficient = String_To_Int(number.c_str());
             }
             
-            Term *next_term = new Term;
-            polynomial->Next_Term = next_term;            
+            is_head_null = (head == nullptr);
+            Append(polynomial.Coefficient, polynomial.Exponent, is_head_null);
+            polynomial.Coefficient = 0;
+            polynomial.Exponent = 0;
             number = "";
         }
     }
-    head = polynomial;
 }
 
 void Polynomial:: Print_Polynomial()
 {
     Term *traversal_term = head;
-    char operatorion = ' ';
-    while (traversal_term->Next_Term)
+    while (traversal_term)
     {
-        if (traversal_term->Coefficient >= 0)
-            operatorion = '+';
-
-        cout << operatorion << traversal_term->Coefficient << "x^" << traversal_term->Exponent << " ";
+        char operatorion = traversal_term->Coefficient >= 0 ? '+' : ' ';
+        string variable = traversal_term->Exponent > 0 ? "x^" : "";
+        cout << operatorion << traversal_term->Coefficient << variable << traversal_term->Exponent << " ";
         traversal_term = traversal_term->Next_Term;
     }
 }
 
-void Polynomial:: Reverse_Polynomial()
+void Polynomial:: Append(int coefficient,int exponent, bool head_empty)
 {
-    Term* cursor = NULL;
-    Term* next;
-    while (head)
+    Term *traversal_term;
+    Term *new_term = new Term;
+    new_term->Coefficient = coefficient;
+    new_term->Exponent = exponent;
+    
+    if (head_empty)
     {
-        next = head->Next_Term;
-        head->Next_Term = cursor;
-        cursor = head;
-        head = next;
+        head = new_term;
     }
-    head =  cursor;
+    
+    else
+    {
+        traversal_term = head;
+        
+        while (traversal_term->Next_Term)
+        {
+            traversal_term = traversal_term->Next_Term;
+        }
+        
+        traversal_term->Next_Term = new_term;
+    }
 }
