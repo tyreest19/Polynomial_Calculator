@@ -78,7 +78,6 @@ void Polynomial:: Print_Polynomial()
     while (traversal_term)
     {
         char operatorion = traversal_term->Coefficient >= 0 ? '+' : ' ';
-        string variable = traversal_term->Exponent > 0 ? "x^" : "";
         cout << operatorion << traversal_term->Coefficient << "x^" << traversal_term->Exponent << " ";
         traversal_term = traversal_term->Next_Term;
     }
@@ -132,6 +131,18 @@ Polynomial Polynomial:: Add(const Polynomial Poly2)
         }
         
         else
+        {
+            sum.Append(second->Coefficient, second->Exponent, sum.head == nullptr);
+            second = second->Next_Term;
+        }
+        
+        while (first)
+        {
+            sum.Append(first->Coefficient, first->Exponent, sum.head == nullptr);
+            first = first->Next_Term;
+        }
+        
+        while (second)
         {
             sum.Append(second->Coefficient, second->Exponent, sum.head == nullptr);
             second = second->Next_Term;
