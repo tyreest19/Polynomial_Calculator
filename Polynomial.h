@@ -28,7 +28,7 @@ public:
     void Print_Polynomial();
     Polynomial Add(const Polynomial Poly2);
     Polynomial Multiply(const Polynomial Poly2);
-
+    void Condense();
     Term *head;
 };
 

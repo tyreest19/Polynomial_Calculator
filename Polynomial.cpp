@@ -23,9 +23,11 @@ Polynomial::Polynomial(std::string Desired_Polynomial)
     Desired_Polynomial += ' ';
     bool is_head_null;
     string number = "";
+    head = nullptr;
     const int length = Desired_Polynomial.length();
     bool search_for_exponent = false;
     Term polynomial;
+    
     for (int i = 0; i < length; i++)
     {
         if ('0' <= Desired_Polynomial[i] && Desired_Polynomial[i] <= '9')
@@ -70,6 +72,7 @@ Polynomial::Polynomial(std::string Desired_Polynomial)
             number = "";
         }
     }
+    this->Condense();
 }
 
 void Polynomial:: Print_Polynomial()
@@ -173,17 +176,51 @@ Polynomial Polynomial:: Multiply(const Polynomial Poly2)
             additive_steps.Append(0, 0, true);
             int coefficient = first->Coefficient * second->Coefficient;
             int exponent = first->Exponent + second->Exponent;
-            additive_steps.Append(coefficient, exponent, product.head == nullptr);
+            additive_steps.Append(coefficient, exponent, additive_steps.head == nullptr);
             product = product.Add(additive_steps);
         }
     }
-    
+    cout << (product.head->Coefficient) << "\n";
+    product.Condense();
     return product;
 }
 
+//============================================================================================
+// Multiplys snother polynomial to this object
+//============================================================================================
 
+void Polynomial:: Condense()
+{
+    bool swap;
+    do
+    {
+        swap = false;
+        
+        for (Term *first = head; first->Next_Term; first = first->Next_Term)
+        {
+            if (first->Exponent == first->Next_Term->Exponent)
+            {
+                swap = true;
+                Term *removed_term = first->Next_Term;
+                first->Coefficient += removed_term->Coefficient;
+                removed_term = removed_term->Next_Term;
+                first->Next_Term = removed_term;
+                
+            }
 
-
+            if (first->Exponent < first->Next_Term->Exponent)
+            {
+                Term temp = *first->Next_Term;
+                first->Next_Term->Coefficient = first->Coefficient;
+                first->Next_Term->Exponent = first->Exponent;
+                first->Coefficient = temp.Coefficient;
+                first->Exponent = temp.Exponent;
+                swap = true;
+            }
+            cout << "im in condense" << endl;
+        }
+    } while (swap);
+}
 
 
 
