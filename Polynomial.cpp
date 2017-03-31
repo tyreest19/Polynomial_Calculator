@@ -108,6 +108,11 @@ void Polynomial:: Append(int coefficient,int exponent, bool head_empty)
     }
 }
 
+//============================================================================================
+// Adds snother polynomial to this object
+// returns a the sum.
+//============================================================================================
+
 Polynomial Polynomial:: Add(const Polynomial Poly2)
 {
     Term *first = head;
@@ -150,3 +155,36 @@ Polynomial Polynomial:: Add(const Polynomial Poly2)
     }
     return sum;
 }
+
+//============================================================================================
+// Multiplys snother polynomial to this object
+// returns a the product.
+//============================================================================================
+
+Polynomial Polynomial:: Multiply(const Polynomial Poly2)
+{
+    Polynomial product;
+    product.Append(0, 0, true);
+    for (Term *first = head; first; first = first->Next_Term)
+    {
+        for (Term *second = Poly2.head; second; second = second->Next_Term)
+        {
+            Polynomial additive_steps;
+            additive_steps.Append(0, 0, true);
+            int coefficient = first->Coefficient * second->Coefficient;
+            int exponent = first->Exponent + second->Exponent;
+            additive_steps.Append(coefficient, exponent, product.head == nullptr);
+            product = product.Add(additive_steps);
+        }
+    }
+    
+    return product;
+}
+
+
+
+
+
+
+
+

@@ -16,8 +16,6 @@
 
 using namespace std;
 
-Polynomial Add(const Polynomial Poly1, const Polynomial Poly2);
-Polynomial Multiply(const Polynomial Poly1, const Polynomial Poly2);
 int String_To_Int(const char *str);
 string Get_User_Input(string prompt, string invalid_input_prompt, int number);
 int User_Inputted_Number(string prompt, string invalid_prompt, string out_of_bounds_prompt, int lower_bounds, int upper_bounds);

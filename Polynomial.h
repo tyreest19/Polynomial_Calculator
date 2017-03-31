@@ -27,6 +27,8 @@ public:
     Polynomial(std::string Desired_Polynomial);
     void Print_Polynomial();
     Polynomial Add(const Polynomial Poly2);
+    Polynomial Multiply(const Polynomial Poly2);
+
     Term *head;
 };
 

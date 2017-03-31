@@ -33,5 +33,10 @@ int main(int argc, const char * argv[]) {
     cout << "Sum: ";
     sum.Print_Polynomial();
     cout << "\n";
+    Polynomial product;
+    product = polynomial1.Multiply(polynomial2);
+    cout << "Product: ";
+    product.Print_Polynomial();
+    cout << "\n";
     return 0;
 }
