@@ -13,10 +13,14 @@
 
 using namespace std;
 
+Polynomial::Polynomial()
+{
+  head = nullptr;
+}
+
 Polynomial::Polynomial(std::string Desired_Polynomial)
 {
     Desired_Polynomial += ' ';
-    head = nullptr;
     bool is_head_null;
     string number = "";
     const int length = Desired_Polynomial.length();
@@ -75,7 +79,7 @@ void Polynomial:: Print_Polynomial()
     {
         char operatorion = traversal_term->Coefficient >= 0 ? '+' : ' ';
         string variable = traversal_term->Exponent > 0 ? "x^" : "";
-        cout << operatorion << traversal_term->Coefficient << variable << traversal_term->Exponent << " ";
+        cout << operatorion << traversal_term->Coefficient << "x^" << traversal_term->Exponent << " ";
         traversal_term = traversal_term->Next_Term;
     }
 }
@@ -103,4 +107,35 @@ void Polynomial:: Append(int coefficient,int exponent, bool head_empty)
         
         traversal_term->Next_Term = new_term;
     }
+}
+
+Polynomial Polynomial:: Add(const Polynomial Poly2)
+{
+    Term *first = head;
+    Term *second = Poly2.head;
+    Polynomial sum;
+    
+    while (first && second)
+    {
+        
+        if (first->Exponent == second->Exponent)
+        {
+            sum.Append(first->Coefficient + second->Coefficient, first->Exponent, sum.head == nullptr);
+            first = first->Next_Term;
+            second = second->Next_Term;
+        }
+        
+        else if (first->Exponent > second->Exponent)
+        {
+            sum.Append(first->Coefficient, first->Exponent, sum.head == nullptr);
+            first = first->Next_Term;
+        }
+        
+        else
+        {
+            sum.Append(second->Coefficient, second->Exponent, sum.head == nullptr);
+            second = second->Next_Term;
+        }
+    }
+    return sum;
 }

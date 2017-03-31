@@ -12,22 +12,22 @@
 
 class Polynomial
 {
-    
-public:
-    
-    Polynomial(std::string Desired_Polynomial);
-    void Print_Polynomial();
+
 private:
-    
     struct Term
     {
         int Coefficient;
         int Exponent;
         Term *Next_Term = nullptr;
     };
-
-    Term *head;
     void Append(int coefficient,int exponent, bool head_empty);
+
+public:
+    Polynomial();
+    Polynomial(std::string Desired_Polynomial);
+    void Print_Polynomial();
+    Polynomial Add(const Polynomial Poly2);
+    Term *head;
 };
 
 #endif /* Polynomial_h */
