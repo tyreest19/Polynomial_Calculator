@@ -27,7 +27,6 @@ Polynomial::Polynomial(std::string Desired_Polynomial)
     const int length = Desired_Polynomial.length();
     bool search_for_exponent = false;
     Term polynomial;
-    
     for (int i = 0; i < length; i++)
     {
         if ('0' <= Desired_Polynomial[i] && Desired_Polynomial[i] <= '9')
@@ -39,6 +38,7 @@ Polynomial::Polynomial(std::string Desired_Polynomial)
         {
             polynomial.Coefficient = String_To_Int(number.c_str());
             number = "";
+            
             if (i + 1 < length)
             {
                 i += 1;
@@ -78,11 +78,20 @@ Polynomial::Polynomial(std::string Desired_Polynomial)
 void Polynomial:: Print_Polynomial()
 {
     Term *traversal_term = head;
+    bool first_term_passed = false;
     while (traversal_term)
     {
-        char operatorion = traversal_term->Coefficient >= 0 ? '+' : ' ';
-        cout << operatorion << traversal_term->Coefficient << "x^" << traversal_term->Exponent << " ";
+        string operatorion = traversal_term->Coefficient >= 0 ? "+ " : "- ";
+        operatorion = first_term_passed ? operatorion : "";
+        
+        if (traversal_term->Exponent == 0)
+            cout << operatorion << traversal_term->Coefficient;
+        
+        else
+            cout << operatorion << traversal_term->Coefficient  << "x^" << traversal_term->Exponent << " ";
+        
         traversal_term = traversal_term->Next_Term;
+        first_term_passed = true;
     }
 }
 
@@ -156,6 +165,8 @@ Polynomial Polynomial:: Add(const Polynomial Poly2)
             second = second->Next_Term;
         }
     }
+    
+    sum.Condense();
     return sum;
 }
 
@@ -180,7 +191,6 @@ Polynomial Polynomial:: Multiply(const Polynomial Poly2)
             product = product.Add(additive_steps);
         }
     }
-    cout << (product.head->Coefficient) << "\n";
     product.Condense();
     return product;
 }
@@ -195,7 +205,7 @@ void Polynomial:: Condense()
     do
     {
         swap = false;
-        
+        //bool deleted_node = false;
         for (Term *first = head; first->Next_Term; first = first->Next_Term)
         {
             if (first->Exponent == first->Next_Term->Exponent)
@@ -203,12 +213,12 @@ void Polynomial:: Condense()
                 swap = true;
                 Term *removed_term = first->Next_Term;
                 first->Coefficient += removed_term->Coefficient;
-                removed_term = removed_term->Next_Term;
-                first->Next_Term = removed_term;
-                
+                removed_term->Next_Term = removed_term->Next_Term;
+                first->Next_Term = removed_term->Next_Term;
+                break;
             }
 
-            if (first->Exponent < first->Next_Term->Exponent)
+            else if (first->Exponent < first->Next_Term->Exponent)
             {
                 Term temp = *first->Next_Term;
                 first->Next_Term->Coefficient = first->Coefficient;
@@ -217,7 +227,6 @@ void Polynomial:: Condense()
                 first->Exponent = temp.Exponent;
                 swap = true;
             }
-            cout << "im in condense" << endl;
         }
     } while (swap);
 }
