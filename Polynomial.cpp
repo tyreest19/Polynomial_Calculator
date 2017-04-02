@@ -10,6 +10,8 @@
 #include "Polynomial.h"
 #include "Utility.hpp"
 #include <iostream>
+#include "constant.h"
+#include <string>
 
 using namespace std;
 
@@ -18,7 +20,7 @@ Polynomial::Polynomial()
   head = nullptr;
 }
 
-Polynomial::Polynomial(std::string Desired_Polynomial)
+void Polynomial::Create(std::string Desired_Polynomial)
 {
     Desired_Polynomial += ' ';
     bool is_head_null;
@@ -75,23 +77,30 @@ Polynomial::Polynomial(std::string Desired_Polynomial)
     this->Condense();
 }
 
-void Polynomial:: Print_Polynomial()
+void Polynomial:: Print_Polynomial(int amount_of_space)
 {
     Term *traversal_term = head;
     bool first_term_passed = false;
+    int count = 0;
+    string spacing;
+    amount_of_space += 3;
+    
     while (traversal_term)
     {
         string operatorion = traversal_term->Coefficient >= 0 ? "+ " : "- ";
         operatorion = first_term_passed ? operatorion : "";
+        int coefficient = traversal_term->Coefficient < 0? traversal_term->Coefficient * -1 : traversal_term->Coefficient;
+        spacing = count % 3 == 0 && count != 0? "\n" + string(amount_of_space, ' '): " ";
         
-        if (traversal_term->Exponent == 0)
-            cout << operatorion << traversal_term->Coefficient;
+        if (traversal_term->Exponent == 0 && traversal_term->Coefficient != 0)
+            cout << operatorion << coefficient;
         
-        else
-            cout << operatorion << traversal_term->Coefficient  << "x^" << traversal_term->Exponent << " ";
+        else if (traversal_term->Exponent != 0 && traversal_term->Coefficient != 0)
+            cout << operatorion << coefficient << VARIABLE << traversal_term->Exponent << spacing;
         
         traversal_term = traversal_term->Next_Term;
         first_term_passed = true;
+        count++;
     }
 }
 

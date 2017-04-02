@@ -24,8 +24,8 @@ private:
 
 public:
     Polynomial();
-    Polynomial(std::string Desired_Polynomial);
-    void Print_Polynomial();
+    void Create(std::string Desired_Polynomial);
+    void Print_Polynomial(int amount_of_space);
     Polynomial Add(const Polynomial Poly2);
     Polynomial Multiply(const Polynomial Poly2);
     void Condense();
