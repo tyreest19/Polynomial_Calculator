@@ -14,47 +14,49 @@
 
 using namespace std;
 
-void Print_Equation(string user_entered_polynomials[], int amount_of_polynomials, Polynomial polynomial, string symbol, string operation);
+void Print_Equation(Polynomial user_entered_polynomials[], int amount_of_polynomials, Polynomial polynomial, string symbol, string operation);
 int main(int argc, const char * argv[]) {
     
     cout << "Hello, There this is a Polynomial Calculator! \n";
     cout << "This Calculator will allow you to Add and Multiply 2 or more Polynomial(Up to 10) \n\n";
     
+//    string input = Get_User_Input("enter: ", "invalid", 1);
+//    cout << input << endl;
+
     string term;
     int amount_of_polynomials = User_Inputted_Number(ENTER_AMOUNT_PROMPT, OUT_OF_BOUNDS, OUT_OF_BOUNDS, MINIMUM_AMOUNT_OF_POLY_NOMIALS, MAXIMUM_AMOUNT_OF_POLY_NOMIALS);
     string user_entered_polynomials[MAXIMUM_AMOUNT_OF_POLY_NOMIALS];
     Polynomial product;
     Polynomial sum;
+    Polynomial polynomials[MAXIMUM_AMOUNT_OF_POLY_NOMIALS];
     
     for (int i = 0; i < amount_of_polynomials; i++)
     {
+        
         term = Get_User_Input(ENTER_POLYNOMIAL, INVALID_POLYNOMIAL, i + 1);
-        user_entered_polynomials[i] = term;
-        string format = user_entered_polynomials[i];
+        polynomials[i].Create(term);
         
         if (i == 0)
         {
-            sum.Create(format);
-            product.Create(format);
+            sum.Create(term);
+            product.Create(term);
         }
         
         else
         {
-            Polynomial polynomial;
-            polynomial.Create(format);
-            sum = sum.Add(polynomial);
-            product = product.Multiply(polynomial);
+            sum = sum.Add(polynomials[i]);
+            product = product.Multiply(polynomials[i]);
         }
     }
     
     cout << "\n";
     
-    Print_Equation(user_entered_polynomials, amount_of_polynomials, sum, " + ", "Sum");
-    Print_Equation(user_entered_polynomials, amount_of_polynomials, product, " * ", "Product");
+    Print_Equation(polynomials, amount_of_polynomials, sum, " + ", "Sum");
+    Print_Equation(polynomials, amount_of_polynomials, product, " * ", "Product");
     return 0;
 }
 
-void Print_Equation(string user_entered_polynomials[], int amount_of_polynomials, Polynomial polynomial, string symbol, string operation)
+void Print_Equation(Polynomial user_entered_polynomials[], int amount_of_polynomials, Polynomial polynomial, string symbol, string operation)
 {
     for (int i = 0; i < amount_of_polynomials; i++)
     {
@@ -63,7 +65,9 @@ void Print_Equation(string user_entered_polynomials[], int amount_of_polynomials
             cout << operation <<" = ";
         }
         
-        cout << "( " << user_entered_polynomials[i] << " )";
+        cout << "( ";
+        user_entered_polynomials[i].Print_Polynomial(3);
+        cout << " )";
         
         if (i + 1 < amount_of_polynomials)
         {
@@ -80,3 +84,4 @@ void Print_Equation(string user_entered_polynomials[], int amount_of_polynomials
     polynomial.Print_Polynomial(operation.length());
     cout << "\n\n";
 }
+

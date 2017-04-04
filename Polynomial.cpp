@@ -38,13 +38,35 @@ void Polynomial::Create(std::string Desired_Polynomial)
         
         else if (Desired_Polynomial[i] == 'x')
         {
+            number = number == "" ? "1": number;
             polynomial.Coefficient = String_To_Int(number.c_str());
             number = "";
             
             if (i + 1 < length)
             {
                 i += 1;
-                search_for_exponent = (Desired_Polynomial[i] == '^');
+                
+                if (Desired_Polynomial[i] == '^')
+                    search_for_exponent = true;
+                
+                else
+                {
+                    polynomial.Exponent = 1;
+                    is_head_null = (head == nullptr);
+                    Append(polynomial.Coefficient, polynomial.Exponent, is_head_null);
+                    polynomial.Coefficient = 0;
+                    polynomial.Exponent = 0;
+                    number = "";
+                }
+            }
+        }
+        
+        else if ((Desired_Polynomial[i] == '+' || Desired_Polynomial[i] == '-'))
+        {
+            if (Desired_Polynomial[i + 1] == ' ')
+            {
+                i++;
+                number += Desired_Polynomial[i -1];
             }
         }
         
@@ -57,6 +79,7 @@ void Polynomial::Create(std::string Desired_Polynomial)
         {
             if (search_for_exponent)
             {
+                number = number == ""? "1": number;
                 polynomial.Exponent = String_To_Int(number.c_str());
                 search_for_exponent = false;
             }
