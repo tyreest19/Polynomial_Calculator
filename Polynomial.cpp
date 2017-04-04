@@ -38,7 +38,16 @@ void Polynomial::Create(std::string Desired_Polynomial)
         
         else if (Desired_Polynomial[i] == 'x')
         {
-            number = number == "" ? "1": number;
+            if (number == "+" || number == "")
+            {
+                number = "1";
+            }
+            
+            if (number == "-")
+            {
+                number = "-1";
+            }
+            
             polynomial.Coefficient = String_To_Int(number.c_str());
             number = "";
             
@@ -66,7 +75,7 @@ void Polynomial::Create(std::string Desired_Polynomial)
             if (Desired_Polynomial[i + 1] == ' ')
             {
                 i++;
-                number += Desired_Polynomial[i -1];
+                number += Desired_Polynomial[i - 1];
             }
         }
         
