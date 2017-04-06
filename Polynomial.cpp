@@ -59,16 +59,6 @@ void Polynomial:: Create(std::string Desired_Polynomial)
         
         else if (Desired_Polynomial[i] == 'x')
         {
-            if (number == "+" || number == "")
-            {
-                polynomial.Coefficient = 1;
-            }
-            
-            if (number == "-")
-            {
-                polynomial.Coefficient = -1;
-            }
-            
             is_head_null = (head == nullptr);
             bool next_steps = ((i + 1) < length);
             
@@ -85,10 +75,26 @@ void Polynomial:: Create(std::string Desired_Polynomial)
                 i++;
                 if (Desired_Polynomial[i] == '+' || Desired_Polynomial[i] == '-')
                 {
+                    cout << number << endl;
+                    if (number == "+" | number == "")
+                    {
+                        polynomial.Coefficient = 1;
+                    }
+                    
+                    if (number == "-")
+                    {
+                        polynomial.Coefficient = -1;
+                    }
+                    else
+                    {
+                        polynomial.Coefficient = String_To_Int(number.c_str());
+                    }
+                    
                     this->Append(polynomial.Coefficient, 1, is_head_null);
                     polynomial.Coefficient = 0;
                     polynomial.Exponent = 0;
                     number = "";
+                    i--;
                 }
                 
                 else if (Desired_Polynomial[i] == '^')

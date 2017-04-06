@@ -129,7 +129,7 @@ bool Valid_Input(string &polynomial)
     bool valid_input = true;
     bool operation_found = true;
     Remove_Spaces(polynomial);
-    
+    valid_input = polynomial == "" ? false : true;
     for (int i = 0; i < polynomial.length() && valid_input; i++)
     {
         valid_input = false;
@@ -156,7 +156,11 @@ bool Valid_Input(string &polynomial)
             valid_input = true;
         }
         
-        else if (polynomial[i] == 'x' && (polynomial[i + 1] == '^'))
+        else if (polynomial[i] == 'x' && (polynomial[i + 1] >= '0' && polynomial[i + 1] <= '9'))
+        {
+            valid_input = false;
+        }
+        else if (polynomial[i] == 'x' && (polynomial[i + 1] == '^' || polynomial[i] == '-' || polynomial[i] == '+'))
         {
             valid_input = true;
             i++;

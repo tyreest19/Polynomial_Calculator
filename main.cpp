@@ -15,6 +15,7 @@
 using namespace std;
 
 void Print_Equation(Polynomial user_entered_polynomials[], int amount_of_polynomials, Polynomial polynomial, string symbol, string operation);
+
 int main(int argc, const char * argv[]) {
     
     cout << "Hello, There this is a Polynomial Calculator! \n";
@@ -30,7 +31,6 @@ int main(int argc, const char * argv[]) {
     {
         
         term = Get_User_Input(ENTER_POLYNOMIAL, INVALID_POLYNOMIAL, i + 1);
-        cout << term << "\n";
         polynomials[i].Create(term);
         
         if (i == 0)
