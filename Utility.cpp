@@ -108,16 +108,91 @@ string Get_User_Input(string prompt, string invalid_input_prompt, int number)
 //  Validate input.
 //============================================================================================
 
-bool Valid_Input(string polynomial)
+//bool Valid_Input(string &polynomial)
+//{
+//    bool valid_input = true;
+//    bool operation_found = true;
+//    int space_counter;
+//    
+//    for (int i = 0; i < polynomial.length() && valid_input; i++)
+//    {
+//        valid_input = false;
+//        if (polynomial[i] == 'X')
+//            polynomial[i] = 'x';
+//        
+//        if ((polynomial[i] == '-' || polynomial[i] == '+'))
+//        {
+//            if (i + 1 < polynomial.length())
+//            {
+//                if ((polynomial[i + 1] != '-' && polynomial[i + 1] != '+'))
+//                {
+//                    if ((polynomial[i + 1] >= '0' && polynomial[i + 1] <= '9') || polynomial[i + 1] == 'x' ||
+//                        polynomial[i + 1] == ' ')
+//                    {
+//                        i++;
+//                        operation_found = true;
+//                        valid_input = true;
+//                        space_counter = 0;
+//                    }
+//                }
+//            }
+//        }
+//        
+//        else if (polynomial[i] == ' ')
+//        {
+//            valid_input = true;
+//            space_counter = 0;
+//        }
+//        
+//        else if (polynomial[i] >= '0' && polynomial[i] <= '9')
+//        {
+//            valid_input = true;
+//        }
+//        
+//        else if (polynomial[i] == 'x' && (polynomial[i + 1] == '^' || polynomial[i + 1] == ' '))
+//        {
+//            valid_input = true;
+//            i++;
+//        }
+//        
+//        else if (polynomial[i] == 'x')
+//        {
+//            valid_input = true;
+//        }
+//    }
+//    
+//    return valid_input;
+//}
+
+void Add_Spaces(string &input)
+{
+    bool add_space = false;
+    
+    do {
+        
+        for (int i  = 0; i < input.length(); i++)
+        {
+            if (input[i] == ' ')
+            {
+                add_space = true;
+                input.insert(i, " ");
+            }
+        }
+        
+    } while (add_space);
+}
+
+bool Valid_Input(string &polynomial)
 {
     bool valid_input = true;
     bool operation_found = true;
-    bool search_for_exponent = false;
-    int space_counter;
+    Remove_Spaces(polynomial);
     
     for (int i = 0; i < polynomial.length() && valid_input; i++)
     {
         valid_input = false;
+        if (polynomial[i] == 'X')
+            polynomial[i] = 'x';
         
         if ((polynomial[i] == '-' || polynomial[i] == '+'))
         {
@@ -125,30 +200,21 @@ bool Valid_Input(string polynomial)
             {
                 if ((polynomial[i + 1] != '-' && polynomial[i + 1] != '+'))
                 {
-                    if ((polynomial[i + 1] >= '0' && polynomial[i + 1] <= '9') || polynomial[i + 1] == 'x' ||
-                        polynomial[i + 1] == ' ')
+                    if ((polynomial[i + 1] >= '0' && polynomial[i + 1] <= '9') || polynomial[i + 1] == 'x')
                     {
                         i++;
                         operation_found = true;
                         valid_input = true;
-                        space_counter = 0;
                     }
                 }
             }
         }
-        
-        else if (polynomial[i] == ' ')
-        {
-            valid_input = true;
-            space_counter = 0;
-        }
-        
         else if (polynomial[i] >= '0' && polynomial[i] <= '9')
         {
             valid_input = true;
         }
         
-        else if (polynomial[i] == 'x' && (polynomial[i + 1] == '^' || polynomial[i + 1] == ' '))
+        else if (polynomial[i] == 'x' && (polynomial[i + 1] == '^'))
         {
             valid_input = true;
             i++;
@@ -159,14 +225,19 @@ bool Valid_Input(string polynomial)
             valid_input = true;
         }
     }
+    
     return valid_input;
 }
 
 void Remove_Spaces(string &input)
 {
-    input.erase(remove(input.begin(),input.end(),' '),input.end());
+    string temp = "";
+    for (int i = 0; i < input.length(); i++)
+    {
+        if (input[i] != ' ')
+        {
+            temp += input[i];
+        }
+    }
+    input = temp;
 }
-
-
-
-

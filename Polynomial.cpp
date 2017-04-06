@@ -20,15 +20,18 @@ Polynomial::Polynomial()
   head = nullptr;
 }
 
-void Polynomial::Create(std::string Desired_Polynomial)
+void Polynomial:: Create(std::string Desired_Polynomial)
 {
-    Desired_Polynomial += ' ';
     bool is_head_null;
-    string number = "";
+    string number = "0";
     head = nullptr;
     const int length = Desired_Polynomial.length();
     bool search_for_exponent = false;
+    int operatoration = 0;
     Term polynomial;
+    polynomial.Exponent = 0;
+    polynomial.Coefficient = 0;
+    
     for (int i = 0; i < length; i++)
     {
         if ('0' <= Desired_Polynomial[i] && Desired_Polynomial[i] <= '9')
@@ -38,73 +41,118 @@ void Polynomial::Create(std::string Desired_Polynomial)
         
         else if (Desired_Polynomial[i] == 'x')
         {
-            if (number == "+" || number == "")
+            cout << "top od single \n";
+            if (number == "+" || number == "0")
             {
-                number = "1";
+                polynomial.Coefficient = 1;
             }
-            
+        
             if (number == "-")
             {
-                number = "-1";
+                polynomial.Coefficient = -1;
             }
             
-            polynomial.Coefficient = String_To_Int(number.c_str());
-            number = "";
+            is_head_null = (head == nullptr);
+            bool next_steps = ((i + 1) < length);
             
-            if (i + 1 < length)
+            cout << "am o here rtgt !\n";
+            if (!next_steps)
             {
-                i += 1;
+                cout << "why am i here ? \n";
+                this->Append(polynomial.Coefficient, 1, is_head_null);
+                polynomial.Coefficient = 0;
+                polynomial.Exponent = 0;
+                number = "0";
+            }
+            
+            else if (next_steps)
+            {
+                i++;
+                cout << "am o here \n";
                 
-                if (Desired_Polynomial[i] == '^')
-                    search_for_exponent = true;
-                
-                else
+                if (Desired_Polynomial[i] == '+' || Desired_Polynomial[i] == '-')
                 {
-                    polynomial.Exponent = 1;
-                    is_head_null = (head == nullptr);
-                    Append(polynomial.Coefficient, polynomial.Exponent, is_head_null);
+                    cout << "im here too";
+                    this->Append(polynomial.Coefficient, 1, is_head_null);
                     polynomial.Coefficient = 0;
                     polynomial.Exponent = 0;
-                    number = "";
+                    number = "0";
+                }
+                
+                else if (Desired_Polynomial[i] == '^')
+                {
+                    cout << "exponent true \n";
+                    search_for_exponent = true;
+                    polynomial.Coefficient = String_To_Int(number.c_str());
+                    i++;
+                    number = Desired_Polynomial[i];
+                    
+                    for (i; i < length && search_for_exponent; i++)
+                    {
+                        if (Desired_Polynomial[i] != '+' || Desired_Polynomial[i] != '-')
+                        {
+                            polynomial.Exponent = String_To_Int(number.c_str());
+                            Append(polynomial.Coefficient, polynomial.Exponent, is_head_null);
+                            polynomial.Coefficient = 0;
+                            polynomial.Exponent = 0;
+                            number = "0";
+                            search_for_exponent = false;
+                        }
+                        
+                        else
+                        {
+                            number = Desired_Polynomial[i];
+                        }
+                    }
+                    
+                    number = "0";
                 }
             }
         }
         
         else if ((Desired_Polynomial[i] == '+' || Desired_Polynomial[i] == '-'))
         {
-            if (Desired_Polynomial[i + 1] == ' ')
-            {
-                i++;
-                number += Desired_Polynomial[i - 1];
-            }
-        }
-        
-        else if (Desired_Polynomial[i] == '+' || Desired_Polynomial[i] == '-')
-        {
             number += Desired_Polynomial[i];
-        }
-        
-        else if (Desired_Polynomial[i] == ' ')
-        {
-            if (search_for_exponent)
+            operatoration += 1;
+            if (operatoration == 2 && !search_for_exponent)
             {
-                number = number == ""? "1": number;
+                is_head_null = (head == nullptr);
+                polynomial.Coefficient = String_To_Int(number.c_str());
+                this->Append(polynomial.Coefficient, 0, is_head_null);
+                polynomial.Coefficient = 0;
+                polynomial.Exponent = 0;
+                operatoration = 0;
+                number = "0";
+            }
+            
+            else if (operatoration == 2 && search_for_exponent)
+            {
+                is_head_null = (head == nullptr);
                 polynomial.Exponent = String_To_Int(number.c_str());
+                this->Append(polynomial.Coefficient, polynomial.Exponent, is_head_null);
+                polynomial.Coefficient = 0;
+                polynomial.Exponent = 0;
+                operatoration = 0;
+                number = "0";
                 search_for_exponent = false;
             }
-            
-            else
-            {
-                polynomial.Exponent = 0;
-                polynomial.Coefficient = String_To_Int(number.c_str());
-            }
-            
-            is_head_null = (head == nullptr);
-            Append(polynomial.Coefficient, polynomial.Exponent, is_head_null);
-            polynomial.Coefficient = 0;
-            polynomial.Exponent = 0;
-            number = "";
         }
+    }
+    
+    is_head_null = (head == nullptr);
+    
+    if (search_for_exponent)
+    {
+        cout << "exponent: " << number << "\n";
+        polynomial.Exponent = String_To_Int(number.c_str());
+        Append(polynomial.Coefficient, polynomial.Exponent, is_head_null);
+    }
+    
+    else
+    {
+        polynomial.Coefficient = String_To_Int(number.c_str());
+        Append(polynomial.Coefficient, 0, is_head_null);
+
     }
     this->Condense();
 }
@@ -114,21 +162,38 @@ void Polynomial:: Print_Polynomial(int amount_of_space)
     Term *traversal_term = head;
     bool first_term_passed = false;
     int count = 0;
-    string spacing;
-    amount_of_space += 3;
     
     while (traversal_term)
     {
-        string operatorion = traversal_term->Coefficient >= 0 ? "+ " : "- ";
+        string operatorion = traversal_term->Coefficient >= 0 ? " + " : " - ";
         operatorion = first_term_passed ? operatorion : "";
         int coefficient = traversal_term->Coefficient < 0? traversal_term->Coefficient * -1 : traversal_term->Coefficient;
-        spacing = count % 3 == 0 && count != 0? "\n" + string(amount_of_space, ' '): " ";
-        
+
         if (traversal_term->Exponent == 0 && traversal_term->Coefficient != 0)
             cout << operatorion << coefficient;
         
+        else if (traversal_term->Coefficient == 1 && traversal_term->Exponent != 1 && traversal_term->Coefficient != 0)
+        {
+            cout << operatorion << VARIABLE << traversal_term->Exponent << " ";
+        }
+        
+        else if (traversal_term->Coefficient != 1 && traversal_term->Exponent == 1 && traversal_term->Coefficient != 0)
+        {
+            cout << operatorion << coefficient << VARIABLE[0] << " ";
+        }
+        
+        else if (traversal_term->Coefficient != 1 && traversal_term->Exponent == 1 && traversal_term->Coefficient != 0)
+        {
+            cout << operatorion << coefficient << VARIABLE[0] << traversal_term->Exponent << " ";
+        }
+        
+        else if (traversal_term->Coefficient == 1 && traversal_term->Exponent == 1 && traversal_term->Coefficient != 0)
+        {
+            cout << operatorion <<  VARIABLE[0];
+        }
+        
         else if (traversal_term->Exponent != 0 && traversal_term->Coefficient != 0)
-            cout << operatorion << coefficient << VARIABLE << traversal_term->Exponent << spacing;
+            cout << operatorion << coefficient << VARIABLE << traversal_term->Exponent << " ";
         
         traversal_term = traversal_term->Next_Term;
         first_term_passed = true;
@@ -246,7 +311,6 @@ void Polynomial:: Condense()
     do
     {
         swap = false;
-        //bool deleted_node = false;
         for (Term *first = head; first->Next_Term; first = first->Next_Term)
         {
             if (first->Exponent == first->Next_Term->Exponent)
@@ -271,7 +335,3 @@ void Polynomial:: Condense()
         }
     } while (swap);
 }
-
-
-
-
