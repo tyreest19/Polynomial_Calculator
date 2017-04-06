@@ -104,65 +104,7 @@ string Get_User_Input(string prompt, string invalid_input_prompt, int number)
     return polynomial;
 }
 
-//============================================================================================
-//  Validate input.
-//============================================================================================
 
-//bool Valid_Input(string &polynomial)
-//{
-//    bool valid_input = true;
-//    bool operation_found = true;
-//    int space_counter;
-//    
-//    for (int i = 0; i < polynomial.length() && valid_input; i++)
-//    {
-//        valid_input = false;
-//        if (polynomial[i] == 'X')
-//            polynomial[i] = 'x';
-//        
-//        if ((polynomial[i] == '-' || polynomial[i] == '+'))
-//        {
-//            if (i + 1 < polynomial.length())
-//            {
-//                if ((polynomial[i + 1] != '-' && polynomial[i + 1] != '+'))
-//                {
-//                    if ((polynomial[i + 1] >= '0' && polynomial[i + 1] <= '9') || polynomial[i + 1] == 'x' ||
-//                        polynomial[i + 1] == ' ')
-//                    {
-//                        i++;
-//                        operation_found = true;
-//                        valid_input = true;
-//                        space_counter = 0;
-//                    }
-//                }
-//            }
-//        }
-//        
-//        else if (polynomial[i] == ' ')
-//        {
-//            valid_input = true;
-//            space_counter = 0;
-//        }
-//        
-//        else if (polynomial[i] >= '0' && polynomial[i] <= '9')
-//        {
-//            valid_input = true;
-//        }
-//        
-//        else if (polynomial[i] == 'x' && (polynomial[i + 1] == '^' || polynomial[i + 1] == ' '))
-//        {
-//            valid_input = true;
-//            i++;
-//        }
-//        
-//        else if (polynomial[i] == 'x')
-//        {
-//            valid_input = true;
-//        }
-//    }
-//    
-//    return valid_input;
-//}
 
 void Add_Spaces(string &input)
 {
