@@ -31,7 +31,7 @@ Polynomial::Polynomial()
 void Polynomial:: Create(std::string Desired_Polynomial)
 {
     bool is_head_null;
-    string number;
+    string number = "";
     head = nullptr;
     const int length = Desired_Polynomial.length();
     bool search_for_exponent = false;
@@ -69,6 +69,7 @@ void Polynomial:: Create(std::string Desired_Polynomial)
         {
             if (number == "+" || number == "")
             {
+                cout << "i am postive \n";
                 polynomial.Coefficient = 1;
             }
             
@@ -98,6 +99,7 @@ void Polynomial:: Create(std::string Desired_Polynomial)
                     {
                         polynomial.Coefficient = String_To_Int(number.c_str());
                     }
+                    
                     cout << number << endl;
                     cout << polynomial.Coefficient;
                     this->Append(polynomial.Coefficient, 1, is_head_null);
@@ -110,15 +112,19 @@ void Polynomial:: Create(std::string Desired_Polynomial)
                 
                 else if (Desired_Polynomial[i] == '^')
                 {
+                    if (!(polynomial.Coefficient == -1 || polynomial.Coefficient == 1))
+                    {
+                        polynomial.Coefficient = String_To_Int(number.c_str());
+                    }
                     char carry_char;
                     search_for_exponent = true;
-                    polynomial.Coefficient = String_To_Int(number.c_str());
                     number = Desired_Polynomial[i + 1];
                     i++;
                     for (i = i + 1; i < length && search_for_exponent; i++)
                     {
                         if (Desired_Polynomial[i] == '+' || Desired_Polynomial[i] == '-')
                         {
+                            cout << "what am i now: " << number << "\n";
                             carry_char = Desired_Polynomial[i];
                             polynomial.Exponent = String_To_Int(number.c_str());
                             Append(polynomial.Coefficient, polynomial.Exponent, is_head_null);
