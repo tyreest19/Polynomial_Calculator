@@ -69,7 +69,6 @@ void Polynomial:: Create(std::string Desired_Polynomial)
         {
             if (number == "+" || number == "")
             {
-                cout << "i am postive \n";
                 polynomial.Coefficient = 1;
             }
             
@@ -100,8 +99,6 @@ void Polynomial:: Create(std::string Desired_Polynomial)
                         polynomial.Coefficient = String_To_Int(number.c_str());
                     }
                     
-                    cout << number << endl;
-                    cout << polynomial.Coefficient;
                     this->Append(polynomial.Coefficient, 1, is_head_null);
                     polynomial.Coefficient = 0;
                     polynomial.Exponent = 0;
@@ -124,7 +121,6 @@ void Polynomial:: Create(std::string Desired_Polynomial)
                     {
                         if (Desired_Polynomial[i] == '+' || Desired_Polynomial[i] == '-')
                         {
-                            cout << "what am i now: " << number << "\n";
                             carry_char = Desired_Polynomial[i];
                             polynomial.Exponent = String_To_Int(number.c_str());
                             Append(polynomial.Coefficient, polynomial.Exponent, is_head_null);
@@ -189,37 +185,38 @@ void Polynomial:: Print_Polynomial(int amount_of_space)
         string operatorion = traversal_term->Coefficient >= 0 ? "+ " : "- ";
         operatorion = first_term_passed ? operatorion : "";
         int coefficient = traversal_term->Coefficient < 0? traversal_term->Coefficient * -1 : traversal_term->Coefficient;
+        string ending_space = traversal_term->Next_Term != nullptr ? " ": "";
         
         if (traversal_term->Exponent == 0 && traversal_term->Coefficient != 0)
             cout << operatorion << coefficient;
         
         else if (traversal_term->Coefficient == -1 && traversal_term->Exponent == 1)
         {
-            cout << operatorion <<  VARIABLE[0] << " ";
+            cout << operatorion <<  VARIABLE[0] << ending_space;
         }
         
         else if (traversal_term->Coefficient == 1 && traversal_term->Exponent != 1 && traversal_term->Coefficient != 0)
         {
-            cout << operatorion << VARIABLE << traversal_term->Exponent << " ";
+            cout << operatorion << VARIABLE << traversal_term->Exponent << ending_space;
         }
         
         else if (traversal_term->Coefficient != 1 && traversal_term->Exponent == 1 && traversal_term->Coefficient != 0)
         {
-            cout << operatorion << coefficient << VARIABLE[0] << " ";
+            cout << operatorion << coefficient << VARIABLE[0] << ending_space;
         }
         
         else if (traversal_term->Coefficient != 1 && traversal_term->Exponent == 1 && traversal_term->Coefficient != 0)
         {
-            cout << operatorion << coefficient << VARIABLE[0] << traversal_term->Exponent << " ";
+            cout << operatorion << coefficient << VARIABLE[0] << traversal_term->Exponent << ending_space;
         }
         
         else if (traversal_term->Coefficient == 1 && traversal_term->Exponent == 1 && traversal_term->Coefficient != 0)
         {
-            cout << operatorion <<  VARIABLE[0] << " ";
+            cout << operatorion <<  VARIABLE[0] << ending_space;
         }
         
         else if (traversal_term->Exponent != 0 && traversal_term->Coefficient != 0)
-            cout << operatorion << coefficient << VARIABLE << traversal_term->Exponent << " ";
+            cout << operatorion << coefficient << VARIABLE << traversal_term->Exponent << ending_space;
         
         traversal_term = traversal_term->Next_Term;
         first_term_passed = true;
