@@ -113,7 +113,6 @@ bool Valid_Input(string &polynomial)
 {
     Convert_Varaibles_To_Lower(polynomial);
     bool valid_input = true;
-    bool operation_found = true;
     Remove_Spaces(polynomial);
     valid_input = polynomial == "" ? false : true;
     for (int i = 0; i < polynomial.length() && valid_input; i++)
@@ -128,10 +127,9 @@ bool Valid_Input(string &polynomial)
             {
                 if ((polynomial[i + 1] != '-' && polynomial[i + 1] != '+'))
                 {
-                    if ((polynomial[i + 1] >= '0' && polynomial[i + 1] <= '9') || polynomial[i + 1] == VARIABLE[0])
+                    if ((polynomial[i + 1] >= '0' && polynomial[i + 1] <= '9') || polynomial[i + 1] == VARIABLE[0] || polynomial[i + 1] == '^')
                     {
                         i++;
-                        operation_found = true;
                         valid_input = true;
                     }
                 }
@@ -153,6 +151,11 @@ bool Valid_Input(string &polynomial)
         }
         
         else if (polynomial[i] == VARIABLE[0])
+        {
+            valid_input = true;
+        }
+        
+        else if (polynomial[i + 1] >= '0' && polynomial[i + 1] <= '9')
         {
             valid_input = true;
         }
