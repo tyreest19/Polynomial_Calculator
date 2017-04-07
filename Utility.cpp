@@ -111,6 +111,7 @@ string Get_User_Input(string prompt, string invalid_input_prompt, int number)
 
 bool Valid_Input(string &polynomial)
 {
+    Convert_Varaibles_To_Lower(polynomial);
     bool valid_input = true;
     bool operation_found = true;
     Remove_Spaces(polynomial);
@@ -127,7 +128,7 @@ bool Valid_Input(string &polynomial)
             {
                 if ((polynomial[i + 1] != '-' && polynomial[i + 1] != '+'))
                 {
-                    if ((polynomial[i + 1] >= '0' && polynomial[i + 1] <= '9') || polynomial[i + 1] == 'x')
+                    if ((polynomial[i + 1] >= '0' && polynomial[i + 1] <= '9') || polynomial[i + 1] == VARIABLE[0])
                     {
                         i++;
                         operation_found = true;
@@ -175,4 +176,19 @@ void Remove_Spaces(string &input)
         }
     }
     input = temp;
+}
+
+//============================================================================================
+// Convert all variables to lower case.
+//============================================================================================
+
+void Convert_Varaibles_To_Lower(string &polynomial)
+{
+    for (int i = 0; i < polynomial.length(); i++)
+    {
+        if (polynomial[i] == toupper(VARIABLE[0]))
+        {
+            polynomial[i] = VARIABLE[0];
+        }
+    }
 }

@@ -16,6 +16,7 @@
 
 using namespace std;
 
+void Convert_Varaibles_To_Lower(string &polynomial);
 int String_To_Int(const char *str);
 string Get_User_Input(string prompt, string invalid_input_prompt, int number);
 int User_Inputted_Number(string prompt, string invalid_prompt, string out_of_bounds_prompt, int lower_bounds, int upper_bounds);

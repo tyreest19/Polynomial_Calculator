@@ -84,6 +84,7 @@ void Polynomial:: Create(std::string Desired_Polynomial)
             {
                 this->Append(polynomial.Coefficient, 1, is_head_null);
                 polynomial.Coefficient = 0;
+                operatoration = 0;
                 polynomial.Exponent = 0;
                 number = "";
             }
@@ -102,6 +103,7 @@ void Polynomial:: Create(std::string Desired_Polynomial)
                     this->Append(polynomial.Coefficient, 1, is_head_null);
                     polynomial.Coefficient = 0;
                     polynomial.Exponent = 0;
+                    operatoration = 0;
                     number = "";
                     i--;
                 }
@@ -122,6 +124,7 @@ void Polynomial:: Create(std::string Desired_Polynomial)
                             Append(polynomial.Coefficient, polynomial.Exponent, is_head_null);
                             polynomial.Coefficient = 0;
                             polynomial.Exponent = 0;
+                            operatoration = 0;
                             number = carry_char;
                             search_for_exponent = false;
                         }
@@ -183,6 +186,11 @@ void Polynomial:: Print_Polynomial(int amount_of_space)
         
         if (traversal_term->Exponent == 0 && traversal_term->Coefficient != 0)
             cout << operatorion << coefficient;
+        
+        else if (traversal_term->Coefficient == -1 && traversal_term->Exponent == 1)
+        {
+            cout << operatorion <<  VARIABLE[0] << " ";
+        }
         
         else if (traversal_term->Coefficient == 1 && traversal_term->Exponent != 1 && traversal_term->Coefficient != 0)
         {
