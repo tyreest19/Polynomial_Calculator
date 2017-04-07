@@ -53,6 +53,10 @@ int main(int argc, const char * argv[]) {
     return 0;
 }
 
+//============================================================================================
+// Prints an equation of polynomials
+//============================================================================================
+
 void Print_Equation(Polynomial user_entered_polynomials[], int amount_of_polynomials, Polynomial polynomial, string symbol, string operation)
 {
     for (int i = 0; i < amount_of_polynomials; i++)

@@ -10,6 +10,7 @@
 #include <iostream>
 #include "Utility.hpp"
 using namespace std;
+
 //==========================================================================================
 // Takes constant char pointer and converts it into a string.
 // If one of the characters are not a digit the function returns -1.
@@ -104,25 +105,9 @@ string Get_User_Input(string prompt, string invalid_input_prompt, int number)
     return polynomial;
 }
 
-
-
-void Add_Spaces(string &input)
-{
-    bool add_space = false;
-    
-    do {
-        
-        for (int i  = 0; i < input.length(); i++)
-        {
-            if (input[i] == ' ')
-            {
-                add_space = true;
-                input.insert(i, " ");
-            }
-        }
-        
-    } while (add_space);
-}
+//============================================================================================
+// Ensures that the user enters a valid polynomial
+//============================================================================================
 
 bool Valid_Input(string &polynomial)
 {
@@ -133,8 +118,8 @@ bool Valid_Input(string &polynomial)
     for (int i = 0; i < polynomial.length() && valid_input; i++)
     {
         valid_input = false;
-        if (polynomial[i] == 'X')
-            polynomial[i] = 'x';
+        if (polynomial[i] == toupper(VARIABLE[0]))
+            polynomial[i] = VARIABLE[0];
         
         if ((polynomial[i] == '-' || polynomial[i] == '+'))
         {
@@ -156,17 +141,17 @@ bool Valid_Input(string &polynomial)
             valid_input = true;
         }
         
-        else if (polynomial[i] == 'x' && (polynomial[i + 1] >= '0' && polynomial[i + 1] <= '9'))
+        else if (polynomial[i] == VARIABLE[0] && (polynomial[i + 1] >= '0' && polynomial[i + 1] <= '9'))
         {
             valid_input = false;
         }
-        else if (polynomial[i] == 'x' && (polynomial[i + 1] == '^' || polynomial[i] == '-' || polynomial[i] == '+'))
+        else if (polynomial[i] == VARIABLE[0] && (polynomial[i + 1] == '^' || polynomial[i] == '-' || polynomial[i] == '+'))
         {
             valid_input = true;
             i++;
         }
         
-        else if (polynomial[i] == 'x')
+        else if (polynomial[i] == VARIABLE[0])
         {
             valid_input = true;
         }
@@ -174,6 +159,10 @@ bool Valid_Input(string &polynomial)
     
     return valid_input;
 }
+
+//============================================================================================
+// Takes a string by reference and removes spaces.
+//============================================================================================
 
 void Remove_Spaces(string &input)
 {

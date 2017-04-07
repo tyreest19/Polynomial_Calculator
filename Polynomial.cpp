@@ -15,15 +15,23 @@
 
 using namespace std;
 
+//============================================================================================
+// Intalizies the head of the polynomial
+//============================================================================================
+
 Polynomial::Polynomial()
 {
   head = nullptr;
 }
 
+//============================================================================================
+// Creates the polynomial
+//============================================================================================
+
 void Polynomial:: Create(std::string Desired_Polynomial)
 {
     bool is_head_null;
-    string number = "";
+    string number;
     head = nullptr;
     const int length = Desired_Polynomial.length();
     bool search_for_exponent = false;
@@ -38,7 +46,7 @@ void Polynomial:: Create(std::string Desired_Polynomial)
         {
             number += Desired_Polynomial[i];
         }
-        
+
         else if (Desired_Polynomial[i] == '+' || Desired_Polynomial[i] == '-')
         {
             operatoration += 1;
@@ -57,8 +65,18 @@ void Polynomial:: Create(std::string Desired_Polynomial)
                 number += Desired_Polynomial[i];
         }
         
-        else if (Desired_Polynomial[i] == 'x')
+        else if (Desired_Polynomial[i] == VARIABLE[0])
         {
+            if (number == "+" || number == "")
+            {
+                polynomial.Coefficient = 1;
+            }
+            
+            if (number == "-")
+            {
+                polynomial.Coefficient = -1;
+            }
+        
             is_head_null = (head == nullptr);
             bool next_steps = ((i + 1) < length);
             
@@ -75,21 +93,12 @@ void Polynomial:: Create(std::string Desired_Polynomial)
                 i++;
                 if (Desired_Polynomial[i] == '+' || Desired_Polynomial[i] == '-')
                 {
-                    cout << number << endl;
-                    if (number == "+" | number == "")
-                    {
-                        polynomial.Coefficient = 1;
-                    }
-                    
-                    if (number == "-")
-                    {
-                        polynomial.Coefficient = -1;
-                    }
-                    else
+                    if (!(polynomial.Coefficient == -1 || polynomial.Coefficient == 1))
                     {
                         polynomial.Coefficient = String_To_Int(number.c_str());
                     }
-                    
+                    cout << number << endl;
+                    cout << polynomial.Coefficient;
                     this->Append(polynomial.Coefficient, 1, is_head_null);
                     polynomial.Coefficient = 0;
                     polynomial.Exponent = 0;
@@ -145,6 +154,9 @@ void Polynomial:: Create(std::string Desired_Polynomial)
     this->Condense();
 }
 
+//============================================================================================
+// Prints the polynomial
+//============================================================================================
 
 void Polynomial:: Print_Polynomial(int amount_of_space)
 {
@@ -156,12 +168,19 @@ void Polynomial:: Print_Polynomial(int amount_of_space)
     {
         cout << "-";
     }
+    
+    if (traversal_term->Coefficient == 0 && traversal_term->Next_Term == nullptr)
+    {
+        cout << 0;
+        traversal_term = traversal_term->Next_Term;
+    }
+    
     while (traversal_term)
     {
         string operatorion = traversal_term->Coefficient >= 0 ? "+ " : "- ";
         operatorion = first_term_passed ? operatorion : "";
         int coefficient = traversal_term->Coefficient < 0? traversal_term->Coefficient * -1 : traversal_term->Coefficient;
-
+        
         if (traversal_term->Exponent == 0 && traversal_term->Coefficient != 0)
             cout << operatorion << coefficient;
         
@@ -182,7 +201,7 @@ void Polynomial:: Print_Polynomial(int amount_of_space)
         
         else if (traversal_term->Coefficient == 1 && traversal_term->Exponent == 1 && traversal_term->Coefficient != 0)
         {
-            cout << operatorion <<  VARIABLE[0];
+            cout << operatorion <<  VARIABLE[0] << " ";
         }
         
         else if (traversal_term->Exponent != 0 && traversal_term->Coefficient != 0)
@@ -193,6 +212,10 @@ void Polynomial:: Print_Polynomial(int amount_of_space)
         count++;
     }
 }
+
+//============================================================================================
+// Appends a term to the polynomial object
+//============================================================================================
 
 void Polynomial:: Append(int coefficient,int exponent, bool head_empty)
 {
@@ -271,7 +294,7 @@ Polynomial Polynomial:: Add(const Polynomial Poly2)
 
 //============================================================================================
 // Multiplys snother polynomial to this object
-// returns a the product.
+// Returns a the product
 //============================================================================================
 
 Polynomial Polynomial:: Multiply(const Polynomial Poly2)
@@ -295,7 +318,7 @@ Polynomial Polynomial:: Multiply(const Polynomial Poly2)
 }
 
 //============================================================================================
-// Multiplys snother polynomial to this object
+// Simplifys the polynomial object
 //============================================================================================
 
 void Polynomial:: Condense()
