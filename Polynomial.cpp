@@ -188,7 +188,7 @@ void Polynomial:: Print_Polynomial(int amount_of_space)
         string ending_space = traversal_term->Next_Term != nullptr ? " ": "";
         
         if (traversal_term->Exponent == 0 && traversal_term->Coefficient != 0)
-            cout << operatorion << coefficient;
+            cout << operatorion << coefficient << ending_space;
         
         else if (traversal_term->Coefficient == -1 && traversal_term->Exponent == 1)
         {
